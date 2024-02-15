@@ -74,7 +74,10 @@ def log_model(train_df,test_df,best_params,best_model):
         mlflow.log_metric('auc', auc)
         
         mlflow.sklearn.log_model(best_model, "best model")
+        
+        bentoml.sklearn.save_model( name="sklearn_best",model=best_model)
         df = mlflow.search_runs(experiment_ids=[exp.experiment_id])
+        #df.to_csv('sdfsdf.csv')
         return df
     
 @task
@@ -84,9 +87,9 @@ def add_to_bento(mlflow_df):
     model_uri = f"runs:/{best_model_run}/best model"
     print(model_uri)
     bento_model = bentoml.mlflow.import_model("my_best_model", model_uri)
-    bento_runner = bento_model.to_runner()
     
-    return bento_runner
+    print("\n Model imported to BentoML: %s" % bento_model)
+    
 
 #bentoml.mlflow.load_model()
     
@@ -96,7 +99,7 @@ def add_to_bento(mlflow_df):
 if __name__ =='__main__':
     @flow(name="train_flow")
     def basic_transformationi():
-        mlflow_tracking_none()
+       
         df_ = read_csv()
         df = transform_df(df=df_)
         print(df)
@@ -106,21 +109,11 @@ if __name__ =='__main__':
         print(bestparams)
         save_object(file_path=r'artifacts\besy_model', obj=bestmodel)
         run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
-        print(run_df)
-        rnuner = add_to_bento(mlflow_df=run_df)
-        
-        return rnuner
+        add_to_bento(mlflow_df=run_df)
     
-    runner = basic_transformationi()
-    from bentoml.io import NumpyNdarray
+    basic_transformationi()
     
-    svc = bentoml.Service('my_model', runners=runner)
-
-    @svc.api(input=bentoml.io.NumpyNdarray(),output=bentoml.io.NumpyNdarray(),route='/beleth')
-    def predict(input_arr):
-        return runner.predict.run(input_arr)
     
-    subprocess.run("bentoml serve trainmodel.py:svc")
     
     
     

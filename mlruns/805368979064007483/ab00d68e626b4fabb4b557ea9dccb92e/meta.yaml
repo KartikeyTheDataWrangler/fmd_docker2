@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/ab00d68e626b4fabb4b557ea9dccb92e/artifacts
+end_time: 1707976180485
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: ab00d68e626b4fabb4b557ea9dccb92e
+run_name: selective-worm-943
+run_uuid: ab00d68e626b4fabb4b557ea9dccb92e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707976168835
+status: 3
+tags: []
+user_id: '91951'

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/e8e16bb0d17b4379be5b799d97c1cf8b/artifacts
+end_time: 1707975896343
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: e8e16bb0d17b4379be5b799d97c1cf8b
+run_name: invincible-ram-106
+run_uuid: e8e16bb0d17b4379be5b799d97c1cf8b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707975887713
+status: 4
+tags: []
+user_id: '91951'

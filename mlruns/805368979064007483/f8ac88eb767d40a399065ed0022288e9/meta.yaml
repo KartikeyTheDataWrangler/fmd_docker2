@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/f8ac88eb767d40a399065ed0022288e9/artifacts
+end_time: 1707973529422
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: f8ac88eb767d40a399065ed0022288e9
+run_name: adaptable-ox-590
+run_uuid: f8ac88eb767d40a399065ed0022288e9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707973519178
+status: 3
+tags: []
+user_id: '91951'

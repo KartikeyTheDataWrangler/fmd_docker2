@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/603e58b3ad5a40b783c7b9bfc5c30337/artifacts
+end_time: 1707975240927
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: 603e58b3ad5a40b783c7b9bfc5c30337
+run_name: treasured-worm-25
+run_uuid: 603e58b3ad5a40b783c7b9bfc5c30337
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707975229363
+status: 3
+tags: []
+user_id: '91951'

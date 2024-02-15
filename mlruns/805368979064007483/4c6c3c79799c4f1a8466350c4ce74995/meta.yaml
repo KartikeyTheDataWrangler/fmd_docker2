@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/4c6c3c79799c4f1a8466350c4ce74995/artifacts
+end_time: 1707974772800
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: 4c6c3c79799c4f1a8466350c4ce74995
+run_name: amazing-dove-942
+run_uuid: 4c6c3c79799c4f1a8466350c4ce74995
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707974763585
+status: 4
+tags: []
+user_id: '91951'

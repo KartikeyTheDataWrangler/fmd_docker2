@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/ae43bfb5200343a598a429574583aadb/artifacts
+end_time: 1707972726082
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: ae43bfb5200343a598a429574583aadb
+run_name: lyrical-rook-955
+run_uuid: ae43bfb5200343a598a429574583aadb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707972713588
+status: 3
+tags: []
+user_id: '91951'
