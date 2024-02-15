@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/e01ae85e60a148bf80ba96085294a873/artifacts
+end_time: 1708014263443
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: e01ae85e60a148bf80ba96085294a873
+run_name: inquisitive-kit-443
+run_uuid: e01ae85e60a148bf80ba96085294a873
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708014252353
+status: 3
+tags: []
+user_id: '91951'

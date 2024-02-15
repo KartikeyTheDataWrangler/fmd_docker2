@@ -76,6 +76,9 @@ def log_model(train_df,test_df,best_params,best_model):
         mlflow.sklearn.log_model(best_model, "best model")
         
         bentoml.sklearn.save_model( name="sklearn_best",model=best_model)
+        
+        bentoml.models.export_model('sklearn_best:latest', 'artifacts/sklerarn_best.bentomodel')
+        
         df = mlflow.search_runs(experiment_ids=[exp.experiment_id])
         #df.to_csv('sdfsdf.csv')
         return df
@@ -87,6 +90,7 @@ def add_to_bento(mlflow_df):
     model_uri = f"runs:/{best_model_run}/best model"
     print(model_uri)
     bento_model = bentoml.mlflow.import_model("my_best_model", model_uri)
+    bentoml.models.export_model('my_best_model:latest', 'artifacts/my_best_model.bentomodel')
     
     print("\n Model imported to BentoML: %s" % bento_model)
     
@@ -107,7 +111,7 @@ if __name__ =='__main__':
         train, test = split_data(df)
         bestmodel, bestparams = grid_search(transformed_df_train=train)
         print(bestparams)
-        save_object(file_path=r'artifacts\besy_model', obj=bestmodel)
+        save_object(file_path=r'artifacts\best_model', obj=bestmodel)
         run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
         add_to_bento(mlflow_df=run_df)
     
