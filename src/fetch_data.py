@@ -12,7 +12,7 @@ def fetch_data(url: str, filepath: str):
 @flow(flow_run_name="data fetch")
 def fetch():
     
-    fetch_data(url='https://raw.githubusercontent.com/KartikeyTheDataWrangler/fmd_docker/main/UCI_Credit_Card.csv',
+    fetch_data(url='https://raw.githubusercontent.com/KartikeyTheDataWrangler/fmd_docker2/main/UCI_Credit_Card.csv',
         filepath='artifacts/creditcard.csv  '
         )
     

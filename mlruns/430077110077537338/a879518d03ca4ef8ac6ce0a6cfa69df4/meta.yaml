@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/430077110077537338/a879518d03ca4ef8ac6ce0a6cfa69df4/artifacts
+end_time: 1708105316211
+entry_point_name: ''
+experiment_id: '430077110077537338'
+lifecycle_stage: active
+run_id: a879518d03ca4ef8ac6ce0a6cfa69df4
+run_name: masked-fly-285
+run_uuid: a879518d03ca4ef8ac6ce0a6cfa69df4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708105308237
+status: 3
+tags: []
+user_id: '91951'

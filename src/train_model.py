@@ -11,8 +11,9 @@ from sklearn.metrics import accuracy_score,  roc_auc_score
 import mlflow
 import bentoml
 import subprocess
+from prefect.task_runners import SequentialTaskRunner
 from bentoml.io import NumpyNdarray
-
+from fetch_data import fetch
 
 @task(name="model tracking uri none")
 def mlflow_tracking_none():
@@ -34,8 +35,8 @@ def split_data(df):
 def grid_search(transformed_df_train):
     param_rf = {
     'n_estimators': [25,50],
-        'max_depth': [2, 4, 6,8,10 ],
-    'min_samples_leaf': [ 6,8,10,12,15],
+        'max_depth': [4, 6,8,],
+    'min_samples_leaf': [ 10,12,15],
         'criterion' :['gini', 'entropy'],
         }
     
@@ -77,23 +78,25 @@ def log_model(train_df,test_df,best_params,best_model):
         
         bentoml.sklearn.save_model( name="sklearn_best",model=best_model)
         
-        bentoml.models.export_model('sklearn_best:latest', 'artifacts/sklerarn_best.bentomodel')
+        #bentoml.models.export_model('sklearn_best:latest', 'artifacts/sklerarn_best_')
         
         df = mlflow.search_runs(experiment_ids=[exp.experiment_id])
         #df.to_csv('sdfsdf.csv')
+        print(df['run_id'][0])
         return df
-    
+
 @task
 def add_to_bento(mlflow_df):
     best_run = mlflow_df.iloc[mlflow_df['metrics.accuracy'].idxmax()]
     best_model_run = best_run['run_id']
     model_uri = f"runs:/{best_model_run}/best model"
     print(model_uri)
+    best_model_overall = mlflow.pyfunc.load_model(model_uri)
     bento_model = bentoml.mlflow.import_model("my_best_model", model_uri)
-    bentoml.models.export_model('my_best_model:latest', 'artifacts/my_best_model.bentomodel')
+    #bentoml.models.export_model('my_best_model:latest', 'artifacts/my_best_model_')
     
     print("\n Model imported to BentoML: %s" % bento_model)
-    
+    return best_model_overall
 
 #bentoml.mlflow.load_model()
     
@@ -101,9 +104,9 @@ def add_to_bento(mlflow_df):
 
 
 if __name__ =='__main__':
-    @flow(name="train_flow")
+    @flow(name="train_flow", task_runner=SequentialTaskRunner())
     def basic_transformationi():
-       
+        fetch()
         df_ = read_csv()
         df = transform_df(df=df_)
         print(df)
@@ -112,8 +115,11 @@ if __name__ =='__main__':
         bestmodel, bestparams = grid_search(transformed_df_train=train)
         print(bestparams)
         save_object(file_path=r'artifacts\best_model', obj=bestmodel)
+        save_object(file_path=r'dvcremote\best_model', obj=bestmodel)
         run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
-        add_to_bento(mlflow_df=run_df)
+        best_model_ovrl= add_to_bento(mlflow_df=run_df)
+        save_object(file_path=r'artifacts\best_model_overall', obj=best_model_ovrl)
+        save_object(file_path=r'dvcremote\best_model_overall', obj=best_model_ovrl)
        
     
     basic_transformationi()
