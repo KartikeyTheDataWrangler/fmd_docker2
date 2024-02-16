@@ -114,9 +114,11 @@ if __name__ =='__main__':
         save_object(file_path=r'artifacts\best_model', obj=bestmodel)
         run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
         add_to_bento(mlflow_df=run_df)
+       
     
     basic_transformationi()
-    
+    os.chdir("src")
+    subprocess.run(["bentoml" ,"serve" ,"service:svc"])
     
     
     

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/805368979064007483/85ccfa04e0ca42e6a598224b882c0ea9/artifacts
+end_time: 1708055697136
+entry_point_name: ''
+experiment_id: '805368979064007483'
+lifecycle_stage: active
+run_id: 85ccfa04e0ca42e6a598224b882c0ea9
+run_name: worried-seal-145
+run_uuid: 85ccfa04e0ca42e6a598224b882c0ea9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708055685161
+status: 3
+tags: []
+user_id: '91951'
