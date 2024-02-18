@@ -9,9 +9,9 @@ from prefect import flow
 
 @flow()
 def read_obj():
-    model = read_object(file_path= r"dvcremote\best_model_overall")
-    prediction = model.predict()
-    print(prediction)
+    model = read_object(file_path="dvcremote\best_model_overall")
+    
+    print(type(model))
 
 read_object()
 

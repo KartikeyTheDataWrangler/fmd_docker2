@@ -14,10 +14,19 @@ import subprocess
 from prefect.task_runners import SequentialTaskRunner
 from bentoml.io import NumpyNdarray
 from fetch_data import fetch
+import os, shutil
 
-@task(name="model tracking uri none")
-def mlflow_tracking_none():
-    mlflow.set_tracking_uri(None)
+
+@task(name="delete model directories")
+def delete_model_directries():
+    path_='artifacts\current_best_model'
+    if os.path.exists(path=path_):
+        shutil.rmtree(path_)
+        
+    path_2 = 'dvcremote\current_best_model'
+    if os.path.exists(path=path_2):
+        shutil.rmtree(path_2)
+   
 
 
 @task
@@ -76,6 +85,13 @@ def log_model(train_df,test_df,best_params,best_model):
         
         mlflow.sklearn.log_model(best_model, "best model")
         
+        
+        mlflow.sklearn.save_model(sk_model= best_model, path= 'artifacts/current_best_model')
+        mlflow.sklearn.save_model(sk_model = best_model, path= 'dvcremote/current_best_model')
+    
+        
+        
+        
         bentoml.sklearn.save_model( name="sklearn_best",model=best_model)
         
         #bentoml.models.export_model('sklearn_best:latest', 'artifacts/sklerarn_best_')
@@ -91,7 +107,12 @@ def add_to_bento(mlflow_df):
     best_model_run = best_run['run_id']
     model_uri = f"runs:/{best_model_run}/best model"
     print(model_uri)
-    best_model_overall = mlflow.pyfunc.load_model(model_uri)
+    best_model_overall = mlflow.sklearn.load_model(model_uri)
+    print(best_model_overall)
+    #mlflow.sklearn.save_model(sk_model = best_model_overall, path= 'dvcremote/overall_best_model')
+    
+    
+    
     bento_model = bentoml.mlflow.import_model("my_best_model", model_uri)
     #bentoml.models.export_model('my_best_model:latest', 'artifacts/my_best_model_')
     
@@ -114,12 +135,11 @@ if __name__ =='__main__':
         train, test = split_data(df)
         bestmodel, bestparams = grid_search(transformed_df_train=train)
         print(bestparams)
-        save_object(file_path=r'artifacts\best_model', obj=bestmodel)
-        save_object(file_path=r'dvcremote\best_model', obj=bestmodel)
+        #save_object(file_path=r'artifacts\best_model', obj=bestmodel)
+        #save_object(file_path=r'dvcremote\best_model', obj=bestmodel)
         run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
         best_model_ovrl= add_to_bento(mlflow_df=run_df)
-        save_object(file_path=r'artifacts\best_model_overall', obj=best_model_ovrl)
-        save_object(file_path=r'dvcremote\best_model_overall', obj=best_model_ovrl)
+   
        
     
     basic_transformationi()

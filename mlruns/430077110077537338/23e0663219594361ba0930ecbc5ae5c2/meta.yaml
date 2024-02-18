@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/kartikey/PYTHONPROJ/FMD_DOCKER2/mlruns/430077110077537338/23e0663219594361ba0930ecbc5ae5c2/artifacts
+end_time: 1708278858785
+entry_point_name: ''
+experiment_id: '430077110077537338'
+lifecycle_stage: active
+run_id: 23e0663219594361ba0930ecbc5ae5c2
+run_name: caring-hare-498
+run_uuid: 23e0663219594361ba0930ecbc5ae5c2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1708278844656
+status: 3
+tags: []
+user_id: '91951'
