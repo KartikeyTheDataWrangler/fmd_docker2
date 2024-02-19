@@ -128,6 +128,7 @@ if __name__ =='__main__':
     @flow(name="train_flow", task_runner=SequentialTaskRunner())
     def basic_transformationi():
         fetch()
+        delete_model_directries()
         df_ = read_csv()
         df = transform_df(df=df_)
         print(df)
