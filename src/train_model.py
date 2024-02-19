@@ -15,6 +15,7 @@ from prefect.task_runners import SequentialTaskRunner
 from bentoml.io import NumpyNdarray
 from fetch_data import fetch
 import os, shutil
+from dotenv import load_dotenv
 
 
 @task(name="delete model directories")
@@ -62,7 +63,20 @@ def grid_search(transformed_df_train):
 
 @task(name="logging_model_mlflow_bentoml")
 def log_model(train_df,test_df,best_params,best_model):
-    mlflow.set_tracking_uri(None)
+    
+    
+    load_dotenv(".env")
+    DAGSHUB_USER = os.getenv('MLFLOW_TRACKING_USERNAME')
+    DAGSHUB_TOKEN = os.getenv('MLFLOW_TRACKING_PASSWORD')
+    
+    
+    os.environ["MLFLOW_TRACKING_USERNAME"] = DAGSHUB_USER
+    os.environ["MLFLOW_TRACKING_PASSWORD"] = DAGSHUB_TOKEN
+    print(DAGSHUB_USER, DAGSHUB_TOKEN)
+    
+    dagshub_url = "https://dagshub.com/KartikeyTheDataWrangler/fmd_docker2.mlflow"
+    
+    mlflow.set_tracking_uri(dagshub_url)
     X_train = train_df.drop('default.payment.next.month',axis=1)
     y_train = train_df['default.payment.next.month']
     X_test = test_df.drop('default.payment.next.month',axis=1)
@@ -124,28 +138,28 @@ def add_to_bento(mlflow_df):
 
 
 
-if __name__ =='__main__':
-    @flow(name="train_flow", task_runner=SequentialTaskRunner())
-    def basic_transformationi():
-        fetch()
-        delete_model_directries()
-        df_ = read_csv()
-        df = transform_df(df=df_)
-        print(df)
-        save_object(file_path=r'artifacts\transformer_pic', obj=transform_df)
-        train, test = split_data(df)
-        bestmodel, bestparams = grid_search(transformed_df_train=train)
-        print(bestparams)
-        #save_object(file_path=r'artifacts\best_model', obj=bestmodel)
-        #save_object(file_path=r'dvcremote\best_model', obj=bestmodel)
-        run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
-        best_model_ovrl= add_to_bento(mlflow_df=run_df)
-   
+
+@flow(name="train_flow", task_runner=SequentialTaskRunner())
+def basic_transformationi():
+    fetch()
+    delete_model_directries()
+    df_ = read_csv()
+    df = transform_df(df=df_)
+    print(df)
+    save_object(file_path=r'artifacts\transformer_pic', obj=transform_df)
+    train, test = split_data(df)
+    bestmodel, bestparams = grid_search(transformed_df_train=train)
+    print(bestparams)
+    #save_object(file_path=r'artifacts\best_model', obj=bestmodel)
+    #save_object(file_path=r'dvcremote\best_model', obj=bestmodel)
+    run_df = log_model(train_df=train,test_df=test,best_params=bestparams,best_model=bestmodel)  
+    best_model_ovrl= add_to_bento(mlflow_df=run_df)
+
        
-    
+if __name__ =='__main__':
     basic_transformationi()
-    os.chdir("src")
-    subprocess.run(["bentoml" ,"serve" ,"service:svc"])
+    #os.chdir("src")
+    #subprocess.run(["bentoml" ,"serve" ,"service:svc"])
     
     
     

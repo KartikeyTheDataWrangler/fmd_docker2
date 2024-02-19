@@ -6,6 +6,8 @@ from src.fetch_data import fetch
 from prefect import flow
 import pickle
 import numpy as np
+import flask
+
 
 with open(file='artifacts\current_best_model\model.pkl', mode="rb") as file:
     current_model = pickle.load(file)
