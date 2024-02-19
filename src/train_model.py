@@ -27,6 +27,10 @@ def delete_model_directries():
     path_2 = 'dvcremote\current_best_model'
     if os.path.exists(path=path_2):
         shutil.rmtree(path_2)
+
+    path_3 = 'artifacts\overall_best_model'
+    if os.path.exists(path=path_3):
+        shutil.rmtree(path_3)
    
 
 
@@ -72,7 +76,7 @@ def log_model(train_df,test_df,best_params,best_model):
     
     os.environ["MLFLOW_TRACKING_USERNAME"] = DAGSHUB_USER
     os.environ["MLFLOW_TRACKING_PASSWORD"] = DAGSHUB_TOKEN
-    print(DAGSHUB_USER, DAGSHUB_TOKEN)
+    #print(DAGSHUB_USER, DAGSHUB_TOKEN)
     
     dagshub_url = "https://dagshub.com/KartikeyTheDataWrangler/fmd_docker2.mlflow"
     
@@ -123,7 +127,7 @@ def add_to_bento(mlflow_df):
     print(model_uri)
     best_model_overall = mlflow.sklearn.load_model(model_uri)
     print(best_model_overall)
-    #mlflow.sklearn.save_model(sk_model = best_model_overall, path= 'dvcremote/overall_best_model')
+    mlflow.sklearn.save_model(sk_model = best_model_overall, path= 'artifacts/overall_best_model')
     
     
     
