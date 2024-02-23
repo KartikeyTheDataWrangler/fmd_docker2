@@ -2,10 +2,10 @@ import os
 import sys
 import numpy as np
 import pickle
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template
 
 # Fixing file path separator
-with open(file=r'current_best_model\model.pkl', mode="rb") as file:
+with open(file=r'current_best_model/model.pkl', mode="rb") as file:
     current_model = pickle.load(file)
 
 app = Flask(__name__)
@@ -20,8 +20,8 @@ def home():
 def predict():
     try:
         # Get the data from the request
-        data = request.form.to_dict()
-        input_data = np.array([float(data[key]) for key in sorted(data.keys())]).reshape(1, -1)
+        data = request.form.to_dict(flat=False)
+        input_data = np.array([(data[key]) for key in sorted(data.keys())]).reshape(1, -1)
 
         # Make prediction using the loaded model
         prediction = current_model.predict(input_data)

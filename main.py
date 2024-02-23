@@ -1,23 +1,32 @@
-
-import os,sys
-sys.path.append(os.getcwd()+"/src")
-from src.utils import read_object
-from src.fetch_data import fetch
-from prefect import flow
-import pickle
+import os
+import sys
 import numpy as np
-import flask
+import pickle
+from flask import Flask, request, jsonify
 
-
-with open(file='artifacts\current_best_model\model.pkl', mode="rb") as file:
+# Fixing file path separator
+with open(file=r'artifacts\current_best_model\model.pkl', mode="rb") as file:
     current_model = pickle.load(file)
 
+app = Flask(__name__)
 
-prediction = current_model.predict(np.array([55,2000,2,2,2,57,0,1284,833]).reshape(1,-1))
+# Define an endpoint for making predictions
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Get the data from the request
+        data = request.get_json(force=True)
+        input_data = np.array(data['input']).reshape(1, -1)
 
-print(prediction)
+        # Make prediction using the loaded model
+        prediction = current_model.predict(input_data)
 
+        # Return the prediction as JSON response
+        return jsonify({'prediction': prediction.tolist()})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
-
-    
+if __name__ == '__main__':
+    # Run the Flask app on port 5000
+    app.run(port=5000)
 
